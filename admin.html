@@ -3,79 +3,120 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard — AlgoTrack</title>
+  <title>Dashboard â€” AlgoTrack</title>
   <link rel="icon" href="data:,">
   <style>
     * { margin:0; padding:0; box-sizing:border-box; font-family:system-ui,-apple-system,sans-serif; }
-    body { background:#0f172a; color:#e2e8f0; }
-    .nav { background:rgba(15,23,42,0.9);border-bottom:1px solid #1e293b;padding:0.8rem 2rem;display:flex;justify-content:space-between;align-items:center; }
-    .nav h2 { font-size:1rem;color:#22c55e;display:flex;align-items:center;gap:0.4rem; }
-    .nav h2 span { background:#22c55e;color:#0f172a;padding:0.1rem 0.35rem;border-radius:3px;font-size:0.65rem; }
-    .nav .links { display:flex;gap:1rem; }
-    .nav .links a { color:#64748b;font-size:0.82rem;text-decoration:none; }
-    .nav .links a:hover { color:#22c55e; }
-    .container { max-width:1200px;margin:0 auto;padding:1.5rem 2rem; }
-    .stats-row { display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem; }
-    .stat-card { background:#1e293b;border-radius:10px;padding:1.2rem 1.5rem;border:1px solid #1e293b; }
-    .stat-card .num { font-size:1.8rem;font-weight:700;color:#22c55e; }
-    .stat-card .label { color:#64748b;font-size:0.8rem; }
-    .grid-2 { display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem; }
-    @media (max-width:720px) { .stats-row { grid-template-columns:1fr 1fr; } .grid-2 { grid-template-columns:1fr; } }
-    .card { background:#1e293b;border-radius:10px;padding:1.5rem;border:1px solid #1e293b; }
-    .card h3 { font-size:0.9rem;color:#94a3b8;margin-bottom:1rem; }
-    .log { max-height:400px;overflow-y:auto; }
-    .log-item { padding:0.4rem 0;border-bottom:1px solid #0f172a;font-size:0.78rem;display:flex;gap:0.5rem; }
-    .log-item .tag { padding:0.1rem 0.35rem;border-radius:3px;font-size:0.65rem;font-weight:600;white-space:nowrap; }
-    .tag-interested { background:rgba(34,197,94,0.15);color:#22c55e; }
-    .tag-price_sensitive { background:rgba(245,158,11,0.15);color:#f59e0b; }
-    .tag-confused { background:rgba(249,115,22,0.15);color:#f97316; }
-    .tag-abandoning { background:rgba(239,68,68,0.15);color:#ef4444; }
-    .tag-high_intent { background:rgba(56,189,248,0.15);color:#38bdf8; }
-    .tag-browsing { background:rgba(100,116,139,0.15);color:#64748b; }
-    .log-item .detail { color:#94a3b8; }
-    .badge { display:inline-block;background:#22c55e;color:#0f172a;font-size:0.7rem;padding:0.1rem 0.4rem;border-radius:4px;font-weight:600; }
-    .bar-row { display:flex;align-items:center;gap:0.5rem;margin-bottom:0.3rem; }
-    .bar-row .lbl { width:100px;font-size:0.78rem;color:#94a3b8;text-align:right; }
-    .bar-row .track { flex:1;height:16px;background:#0f172a;border-radius:4px;overflow:hidden; }
-    .bar-row .track .fill { height:100%;background:#22c55e;border-radius:4px;transition:0.5s; }
-    .bar-row .val { font-size:0.75rem;color:#64748b;width:25px; }
-    .empty { color:#475569;text-align:center;padding:2rem;font-size:0.9rem; }
-    .live-dot { display:inline-block;width:8px;height:8px;background:#22c55e;border-radius:50%;animation:pulse 1.5s infinite;margin-right:0.3rem; }
+    body { background:#ffffff; color:#1a1a1a; }
+    a { color:#16a34a; text-decoration:none; }
+    @keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+    @keyframes countPop { from { opacity:0; transform:scale(0.5); } to { opacity:1; transform:scale(1); } }
+    @keyframes slideIn { from { opacity:0; transform:translateX(-15px); } to { opacity:1; transform:translateX(0); } }
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+    .fade-in { opacity:0; transform:translateY(30px); transition:all 0.6s ease-out; }
+    .fade-in.visible { opacity:1; transform:translateY(0); }
+    .nav { background:rgba(255,255,255,0.95); backdrop-filter:blur(12px); border-bottom:1px solid #e5e7eb; padding:0.8rem 2rem; display:flex; justify-content:space-between; align-items:center; animation:navslide 0.6s ease-out 0.2s both; }
+    @keyframes navslide { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+    .nav h2 { font-size:1rem; color:#16a34a; display:flex; align-items:center; gap:0.4rem; }
+    .nav h2 span { background:#16a34a; color:#ffffff; padding:0.1rem 0.35rem; border-radius:3px; font-size:0.65rem; }
+    .nav .links { display:flex; gap:1rem; align-items:center; }
+    .nav .links a { color:#6b7280; font-size:0.82rem; text-decoration:none; transition:color 0.2s; }
+    .nav .links a:hover { color:#16a34a; }
+    .container { max-width:1200px; margin:0 auto; padding:1.5rem 2rem; }
+    .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:1.5rem; }
+    .stat-card { background:#f9fafb; border-radius:10px; padding:1.2rem 1.5rem; border:1px solid #e5e7eb; transition:all 0.3s; animation:countPop 0.4s ease-out both; }
+    .stat-card:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.06); }
+    .stat-card:nth-child(1) { animation-delay:0.1s; }
+    .stat-card:nth-child(2) { animation-delay:0.2s; }
+    .stat-card:nth-child(3) { animation-delay:0.3s; }
+    .stat-card:nth-child(4) { animation-delay:0.4s; }
+    .stat-card .num { font-size:1.8rem; font-weight:700; color:#16a34a; }
+    .stat-card .label { color:#6b7280; font-size:0.8rem; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem; }
+    @media (max-width:720px) { .stats-row { grid-template-columns:1fr 1fr; } .grid-2 { grid-template-columns:1fr; } }
+    .card { background:#f9fafb; border-radius:10px; padding:1.5rem; border:1px solid #e5e7eb; animation:fadeInUp 0.6s ease-out both; }
+    .card:nth-child(1) { animation-delay:0.3s; }
+    .card:nth-child(2) { animation-delay:0.4s; }
+    .card:nth-child(3) { animation-delay:0.5s; }
+    .card h3 { font-size:0.9rem; color:#6b7280; margin-bottom:1rem; }
+    .log { max-height:400px; overflow-y:auto; }
+    .log-item { padding:0.4rem 0; border-bottom:1px solid #e5e7eb; font-size:0.78rem; display:flex; gap:0.5rem; animation:slideIn 0.3s ease-out both; }
+    .log-item .tag { padding:0.1rem 0.35rem; border-radius:3px; font-size:0.65rem; font-weight:600; white-space:nowrap; }
+    .tag-interested { background:rgba(34,197,94,0.15); color:#22c55e; }
+    .tag-price_sensitive { background:rgba(245,158,11,0.15); color:#d97706; }
+    .tag-confused { background:rgba(249,115,22,0.15); color:#ea580c; }
+    .tag-abandoning { background:rgba(239,68,68,0.15); color:#dc2626; }
+    .tag-high_intent { background:rgba(34,197,94,0.15); color:#16a34a; }
+    .tag-browsing { background:rgba(107,114,128,0.15); color:#6b7280; }
+    .log-item .detail { color:#6b7280; }
+    .badge { display:inline-block; background:#22c55e; color:#ffffff; font-size:0.7rem; padding:0.1rem 0.4rem; border-radius:4px; font-weight:600; }
+    .bar-row { display:flex; align-items:center; gap:0.5rem; margin-bottom:0.3rem; animation:fadeIn 0.4s ease-out both; }
+    .bar-row .lbl { width:100px; font-size:0.78rem; color:#6b7280; text-align:right; }
+    .bar-row .track { flex:1; height:16px; background:#e5e7eb; border-radius:4px; overflow:hidden; }
+    .bar-row .track .fill { height:100%; background:linear-gradient(90deg,#22c55e,#16a34a); border-radius:4px; transition:width 1s ease-out; }
+    .bar-row .val { font-size:0.75rem; color:#9ca3af; width:25px; }
+    .empty { color:#9ca3af; text-align:center; padding:2rem; font-size:0.9rem; }
+    .live-dot { display:inline-block; width:8px; height:8px; background:#22c55e; border-radius:50%; animation:pulse 1.5s infinite; margin-right:0.3rem; }
   </style>
 </head>
 <body>
-  <div class="nav">
+  <style>
+  #nexasplash { position:fixed; top:0; left:0; width:100%; height:100%; background:#ffffff; z-index:99999; display:flex; align-items:center; justify-content:center; flex-direction:column; animation:nexafade 0.6s ease-out 1.5s forwards; }
+  #nexasplash .nx-logo { font-size:48px; font-weight:900; color:#ea580c; letter-spacing:3px; font-family:system-ui,-apple-system,sans-serif; animation:nxpop 0.5s ease-out; }
+  #nexasplash .nx-sub { font-size:13px; color:#9ca3af; margin-top:8px; letter-spacing:5px; text-transform:uppercase; }
+  @keyframes nexafade { to { opacity:0; pointer-events:none; } }
+  @keyframes nxpop { 0% { opacity:0; transform:scale(0.5); } 70% { transform:scale(1.1); } 100% { opacity:1; transform:scale(1); } }
+  </style>
+  <div id="nexasplash">
+    <div class="nx-logo">NEXAGAZE</div>
+    <div class="nx-sub">AI-Powered Solutions</div>
+  </div>
+  <div class="nav fade-in">
     <h2><span>AT</span> AlgoTrack Admin</h2>
     <div class="links">
       <span class="live-dot"></span>
-      <span style="color:#64748b;font-size:0.8rem;" id="liveCount">Awaiting data...</span>
+      <span style="color:#6b7280;font-size:0.8rem;" id="liveCount">Awaiting data...</span>
       <a href="/">Home</a>
       <a href="/services.html">Services</a>
     </div>
   </div>
   <div class="container">
     <div class="stats-row">
-      <div class="stat-card"><div class="num" id="totalEvents">0</div><div class="label">Total Events Tracked</div></div>
-      <div class="stat-card"><div class="num" id="topService">-</div><div class="label">Top Service Interest</div></div>
-      <div class="stat-card"><div class="num" id="avgDiscount">0%</div><div class="label">Avg Discount Offered</div></div>
-      <div class="stat-card"><div class="num" id="currentSent">-</div><div class="label">Current Sentiment</div></div>
+      <div class="stat-card fade-in"><div class="num" id="totalEvents">0</div><div class="label">Total Events Tracked</div></div>
+      <div class="stat-card fade-in"><div class="num" id="topService">-</div><div class="label">Top Service Interest</div></div>
+      <div class="stat-card fade-in"><div class="num" id="avgDiscount">0%</div><div class="label">Avg Discount Offered</div></div>
+      <div class="stat-card fade-in"><div class="num" id="currentSent">-</div><div class="label">Current Sentiment</div></div>
     </div>
     <div class="grid-2">
-      <div class="card"><h3>Service Interest</h3><div id="serviceStats"></div></div>
-      <div class="card"><h3>Recent Analysis Log</h3><div class="log" id="eventLog"></div></div>
+      <div class="card fade-in"><h3>Service Interest</h3><div id="serviceStats"></div></div>
+      <div class="card fade-in"><h3>Recent Analysis Log</h3><div class="log" id="eventLog"></div></div>
     </div>
-    <div class="card"><h3>Raw Behavior Events (last 50)</h3><div class="log" id="rawLog"></div></div>
+    <div class="card fade-in"><h3>Raw Behavior Events (last 50)</h3><div class="log" id="rawLog"></div></div>
   </div>
   <script>
     const LABELS = { interested:"Interested", price_sensitive:"Price Sensitive", confused:"Confused", abandoning:"Abandoning", high_intent:"High Intent", browsing:"Browsing" };
     const SERVICES = ["Web Development","SEO Optimization","UX Design","Mobile App Dev","Content Strategy","Analytics Setup"];
+
+    function animateNum(el, target) {
+      const start = parseInt(el.textContent) || 0;
+      const dur = 600;
+      const t0 = performance.now();
+      function tick(now) {
+        const t = Math.min((now - t0) / dur, 1);
+        const ease = 1 - Math.pow(1 - t, 3);
+        el.textContent = Math.round(start + (target - start) * ease);
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
     function load() {
       const log = window.__behaviorLog || [];
       const analysis = window.__behaviorAnalysis;
       const interest = window.__behaviorInterest;
       const sentiment = window.__behaviorSentiment;
-      document.getElementById("totalEvents").textContent = log.length;
+      animateNum(document.getElementById("totalEvents"), log.length);
       document.getElementById("currentSent").textContent = sentiment ? (LABELS[sentiment] || sentiment) : "-";
       const sCounts = {}; let disc = 0, dc = 0;
       log.forEach(e => {
@@ -87,20 +128,33 @@
       if (analysis && analysis.discount_percent) { disc = analysis.discount_percent; dc = 1; }
       document.getElementById("avgDiscount").textContent = dc ? disc + "%" : "0%";
       const maxC = sorted.length ? sorted[0][1] : 1;
-      document.getElementById("serviceStats").innerHTML = sorted.length ? sorted.slice(0,6).map(([k,v]) =>
-        `<div class="bar-row"><span class="lbl">${k}</span><div class="track"><div class="fill" style="width:${v/maxC*100}%"></div></div><span class="val">${v}</span></div>`
+      document.getElementById("serviceStats").innerHTML = sorted.length ? sorted.slice(0,6).map(([k,v], i) =>
+        `<div class="bar-row" style="animation-delay:${i*0.08}s"><span class="lbl">${k}</span><div class="track"><div class="fill" style="width:${v/maxC*100}%;transition-delay:${i*0.08}s"></div></div><span class="val">${v}</span></div>`
       ).join("") : '<div class="empty">No service interest detected yet</div>';
-      let evHtml = analysis ? `<div class="log-item"><span class="tag tag-${sentiment}">${LABELS[sentiment]||sentiment}</span><span class="detail">${analysis.trigger||""} ${analysis.target_service?"-> "+analysis.target_service:""} ${analysis.discount_percent?"("+analysis.discount_percent+"% off)":""}</span></div>` : '<div class="empty">No analysis yet</div>';
+      let evHtml = analysis ? `<div class="log-item" style="animation-delay:0.1s"><span class="tag tag-${sentiment}">${LABELS[sentiment]||sentiment}</span><span class="detail">${analysis.trigger||""} ${analysis.target_service?"-> "+analysis.target_service:""} ${analysis.discount_percent?"("+analysis.discount_percent+"% off)":""}</span></div>` : '<div class="empty">No analysis yet</div>';
       document.getElementById("eventLog").innerHTML = evHtml;
-      const raw = log.slice(-50).reverse().map(e => {
+      const raw = log.slice(-50).reverse().map((e, i) => {
         const t = new Date(e.time).toLocaleTimeString();
         const extra = e.duration ? e.duration+"s" : e.count ? "x"+e.count : e.section ? "in "+e.section : "";
-        return `<div class="log-item"><span class="badge">${e.type}</span><span class="detail">${e.element||""} ${extra} - ${t}</span></div>`;
+        return `<div class="log-item" style="animation-delay:${i*0.03}s"><span class="badge">${e.type}</span><span class="detail">${e.element||""} ${extra} - ${t}</span></div>`;
       }).join("");
       document.getElementById("rawLog").innerHTML = raw.length ? raw : '<div class="empty">No events yet. Interact with the pages to generate data.</div>';
     }
     setInterval(load, 2000);
     setTimeout(load, 500);
+  </script>
+
+  <div style="text-align:center;padding:1rem;color:#9ca3af;font-size:0.75rem;border-top:1px solid #e5e7eb;">
+    Nexagaze &mdash; Built by Nexagaze Founder Bilal &bull;
+    <a href="mailto:ai@nexagaze.com" style="color:#6b7280;">ai@nexagaze.com</a> &bull;
+    <a href="https://wa.me/9203103860653" style="color:#6b7280;">03103860653</a>
+  </div>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
